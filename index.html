@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#09090b">
+<meta name="description" content="VortexCipher Claude AI — dibuat oleh Javas R.A.">
+<title>VortexCipher Claude AI — Javas R.A.</title>
+<style>
+:root{color-scheme:dark;--bg:#09090b;--panel:#111114;--panel2:#19191e;--line:#2a2a31;--text:#f5f5f5;--muted:#a1a1aa;--red:#ef233c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;height:100dvh;overflow:hidden}
+button,textarea{font:inherit}button{cursor:pointer}
+.app{height:100dvh;display:grid;grid-template-columns:255px minmax(0,1fr)}
+.sidebar{background:#0d0d10;border-right:1px solid var(--line);padding:19px 13px;display:flex;flex-direction:column;gap:17px}
+.brand{display:flex;align-items:center;gap:11px;padding:3px 5px 14px}.logo{width:39px;height:39px;display:grid;place-items:center;background:var(--red);font-weight:950;clip-path:polygon(15% 0,100% 0,85% 100%,0 100%)}.brand-name{font-size:12px;font-weight:900;letter-spacing:.09em}.brand-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.new-chat{border:1px solid #38383f;background:#19191e;color:#fff;border-radius:10px;padding:11px;text-align:left}.new-chat:hover{border-color:var(--red)}.side-label{font-size:10px;letter-spacing:.16em;color:#71717a;font-weight:800;padding:0 7px}.history-item{width:100%;border:0;background:transparent;color:#c4c4cc;text-align:left;padding:9px;border-radius:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.history-item:hover{background:#1b1b20}.side-bottom{margin-top:auto;border:1px solid var(--line);background:#111114;border-radius:11px;padding:12px}.status{display:flex;align-items:center;gap:7px;font-size:12px}.dot{width:7px;height:7px;background:var(--red);border-radius:50%;box-shadow:0 0 10px #ef233c}.side-bottom p{font-size:11px;color:var(--muted);margin:8px 0 0}
+.main{min-width:0;display:flex;flex-direction:column;height:100dvh}.topbar{height:62px;flex-shrink:0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:#0b0b0ddd;backdrop-filter:blur(14px);gap:10px}.title-wrap{display:flex;align-items:center;gap:10px}.title-wrap strong{font-size:14px}.model-tag{font-size:10px;color:#ff8995;border:1px solid #61212b;background:#260e13;border-radius:6px;padding:4px 7px}.admin{color:#f4f4f5;text-decoration:none;border:1px solid #34343a;border-radius:8px;padding:7px 10px;font-size:11px}.admin:hover{border-color:var(--red)}
+.chat-area{flex:1;overflow-y:auto;overscroll-behavior:contain;scroll-behavior:smooth}.chat-inner{width:min(820px,100%);margin:0 auto;padding:30px 23px 25px}.welcome{text-align:center;padding:8vh 0 25px}.eyebrow{font-size:10px;color:#ff6577;letter-spacing:.2em;font-weight:800}.welcome h1{font-size:clamp(28px,4.5vw,43px);line-height:1.12;letter-spacing:-.04em;margin:15px 0 12px}.welcome h1 span{color:var(--red)}.welcome p{max-width:480px;margin:auto;color:var(--muted);font-size:14px}.suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;max-width:600px;margin:26px auto}.suggestion{background:#121215;border:1px solid var(--line);color:#e4e4e7;border-radius:11px;text-align:left;padding:13px}.suggestion:hover{border-color:#8f2635}.suggestion b{display:block;font-size:12px;margin-bottom:3px}.suggestion span{font-size:11px;color:var(--muted)}
+.messages{display:flex;flex-direction:column;gap:19px}.message{display:flex;width:100%;align-items:flex-start;gap:9px}.message.user{justify-content:flex-end}.message.ai{justify-content:flex-start}.bubble{max-width:min(78%,650px);padding:11px 14px;border:1px solid var(--line);border-radius:15px;min-width:50px;overflow-wrap:anywhere;white-space:pre-wrap}.user .bubble{background:#54151f;border-color:#762432;border-bottom-right-radius:4px;color:#fff}.ai .bubble{background:#17171b;border-color:#303038;border-bottom-left-radius:4px;color:#ededf0}.sender{font-size:10px;color:#ff8b98;margin-bottom:4px;font-weight:750}.user .sender{text-align:right;color:#ffb1ba}.bubble-text{white-space:pre-wrap}.bubble-text pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#09090b;border:1px solid #333;padding:10px;border-radius:8px}.thinking{display:flex;align-items:center;gap:8px;color:#c4c4cc}.pulse{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1s infinite alternate}@keyframes pulse{to{opacity:.25;transform:scale(.7)}}
+.composer-wrap{flex-shrink:0;padding:12px 20px 10px;background:linear-gradient(transparent,#09090b 10%)}.composer{width:min(820px,100%);margin:0 auto;border:1px solid #393941;background:#141417;border-radius:16px;padding:11px 12px;box-shadow:0 10px 40px #0006}.composer:focus-within{border-color:#852635}.prompt{display:block;width:100%;min-height:48px;max-height:150px;resize:none;border:0;outline:0;background:transparent;color:#f4f4f5;padding:5px 5px 10px}.prompt::placeholder{color:#71717a}.composer-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px}.hint{font-size:10px;color:#71717a}.send{background:var(--red);border:0;color:#fff;border-radius:9px;padding:8px 14px;font-weight:800}.send:hover{background:#ff3b53}.send:disabled{opacity:.5;cursor:not-allowed}.fineprint{text-align:center;color:#71717a;font-size:10px;margin-top:7px}.mobile-new{display:none}
+@media(max-width:700px){.app{grid-template-columns:1fr}.sidebar{display:none}.topbar{height:56px;padding:0 13px}.chat-inner{padding:20px 13px 20px}.welcome{padding:7vh 0 20px}.suggestions{grid-template-columns:1fr}.bubble{max-width:88%;padding:10px 12px}.composer-wrap{padding:8px 10px max(8px,env(safe-area-inset-bottom))}.hint{max-width:210px}.admin{font-size:10px;padding:7px}.title-wrap{gap:7px}}
+</style>
+</head>
+<body>
+<div class="app">
+ <aside class="sidebar">
+  <div class="brand"><div class="logo">VC</div><div><div class="brand-name">VORTEXCIPHER</div><div class="brand-sub">CLAUDE AI · BY JAVAS R.A.</div></div></div>
+  <button class="new-chat" id="newChat">＋ &nbsp; Chat baru</button>
+  <div class="side-label">RIWAYAT SESI INI</div>
+  <div id="history"><button class="history-item">Percakapan baru</button></div>
+  <div class="side-bottom"><div class="status"><span class="dot"></span> Claude API</div><p>Model Claude melalui endpoint pihak ketiga. Riwayat chat hanya disimpan selama halaman terbuka.</p></div>
+ </aside>
+ <main class="main">
+  <header class="topbar"><div class="title-wrap"><strong>VortexCipher AI</strong><span class="model-tag">CLAUDE ONLY</span></div><a class="admin" href="https://wa.me/6285719195951" target="_blank" rel="noopener noreferrer">Admin WhatsApp ↗</a></header>
+  <section class="chat-area" id="chatArea">
+   <div class="chat-inner">
+    <div class="welcome" id="welcome"><div class="eyebrow">VORTEXCIPHER PROJECT / AI LAB</div><h1>Halo, apa yang ingin<br><span>kita kerjakan?</span></h1><p>Asisten AI berbahasa Indonesia untuk menulis, pemrograman, belajar, dan memahami keamanan siber secara defensif.</p>
+     <div class="suggestions">
+      <button class="suggestion" data-prompt="Jelaskan dasar keamanan siber untuk pemula dalam bahasa Indonesia."><b>Belajar keamanan siber</b><span>Konsep dasar dan praktik defensif</span></button>
+      <button class="suggestion" data-prompt="Bantu periksa kode berikut, jelaskan bug dan cara memperbaikinya:\n\n"><b>Periksa kode</b><span>Debugging dan saran perbaikan</span></button>
+      <button class="suggestion" data-prompt="Buatkan rencana belajar JavaScript selama 7 hari dalam bahasa Indonesia."><b>Rencana belajar</b><span>Langkah belajar yang terstruktur</span></button>
+      <button class="suggestion" data-prompt="Buat checklist hardening dasar untuk server milik saya."><b>Keamanan server</b><span>Checklist perlindungan sistem</span></button>
+     </div>
+    </div>
+    <div class="messages" id="messages" aria-live="polite"></div>
+   </div>
+  </section>
+  <div class="composer-wrap"><form class="composer" id="chatForm"><textarea id="prompt" class="prompt" rows="2" placeholder="Kirim pesan..." aria-label="Pesan untuk Claude" required></textarea><div class="composer-bottom"><span class="hint">Enter untuk kirim · Shift + Enter untuk baris baru</span><button class="send" id="send" type="submit">Kirim ↑</button></div></form><div class="fineprint">Dibuat oleh Javas R.A. · Team VortexCipher · Periksa kembali jawaban penting.</div></div>
+ </main>
+</div>
+<script>
+(() => {
+ const API_URL = "https://api.azbry.com/api/ai/claude";
+ const form = document.getElementById("chatForm");
+ const prompt = document.getElementById("prompt");
+ const send = document.getElementById("send");
+ const messages = document.getElementById("messages");
+ const welcome = document.getElementById("welcome");
+ const chatArea = document.getElementById("chatArea");
+ const history = document.getElementById("history");
+ let busy = false, firstQuestion = "";
+
+ function scrollBottom(){ chatArea.scrollTop = chatArea.scrollHeight; }
+ function addMessage(role, text, isThinking=false) {
+   welcome.hidden = true;
+   const row = document.createElement("div");
+   row.className = "message " + role;
+   const bubble = document.createElement("div");
+   bubble.className = "bubble";
+   const sender = document.createElement("div");
+   sender.className = "sender";
+   sender.textContent = role === "user" ? "Anda" : "Claude · VortexCipher";
+   const content = document.createElement("div");
+   content.className = "bubble-text";
+   if (isThinking) {
+     content.className += " thinking";
+     const pulse = document.createElement("span"); pulse.className = "pulse";
+     const label = document.createElement("span"); label.textContent = "Berpikir...";
+     content.append(pulse, label);
+   } else content.textContent = text;
+   bubble.append(sender, content); row.append(bubble); messages.append(row); scrollBottom();
+   return {row, bubble, sender, content};
+ }
+ function extractAnswer(data) {
+   if (typeof data === "string") return data;
+   if (data && typeof data === "object") {
+     for (const key of ["result","response","answer","message","content","text"]) {
+       if (typeof data[key] === "string" && data[key].trim()) return data[key];
+     }
+     return JSON.stringify(data, null, 2);
+   }
+   return String(data ?? "");
+ }
+ async function ask(question) {
+   if (busy || !question.trim()) return;
+   busy = true; send.disabled = true; prompt.disabled = true;
+   addMessage("user", question.trim());
+   const reply = addMessage("ai", "", true);
+   try {
+     const response = await fetch(API_URL + "?q=" + encodeURIComponent(question.trim()), {
+       method: "GET", headers: {"Accept":"application/json, text/plain, */*"},
+       signal: AbortSignal.timeout(30000)
+     });
+     if (!response.ok) throw new Error("API merespons HTTP " + response.status);
+     const raw = await response.text();
+     let data; try { data = JSON.parse(raw); } catch { data = raw; }
+     const answer = extractAnswer(data);
+     if (!answer.trim()) throw new Error("API mengembalikan jawaban kosong.");
+     reply.content.className = "bubble-text";
+     reply.content.textContent = answer;
+   } catch (error) {
+     reply.content.className = "bubble-text";
+     reply.content.textContent = "Maaf, Claude belum bisa dihubungi. Periksa koneksi internet dan coba lagi.\n\nDetail: " + (error.message || "Kesalahan tidak diketahui") + "\n\nJika muncul error CORS, endpoint API perlu mengizinkan domain Vercel atau panggilan harus dilakukan melalui serverless function.";
+   } finally {
+     busy = false; send.disabled = false; prompt.disabled = false; prompt.focus(); scrollBottom();
+   }
+ }
+ form.addEventListener("submit", event => {
+   event.preventDefault();
+   const question = prompt.value;
+   if (!question.trim() || busy) return;
+   if (!firstQuestion) {
+     firstQuestion = question.trim().slice(0, 32);
+     const item = document.createElement("button");
+     item.className = "history-item"; item.textContent = firstQuestion;
+     history.replaceChildren(item);
+   }
+   prompt.value = ""; prompt.style.height = "auto"; ask(question);
+ });
+ prompt.addEventListener("keydown", event => {
+   if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); form.requestSubmit(); }
+ });
+ prompt.addEventListener("input", () => { prompt.style.height = "auto"; prompt.style.height = Math.min(prompt.scrollHeight, 150) + "px"; });
+ document.querySelectorAll("[data-prompt]").forEach(button => button.addEventListener("click", () => {
+   prompt.value = button.dataset.prompt; prompt.focus(); prompt.dispatchEvent(new Event("input"));
+ }));
+ document.getElementById("newChat").addEventListener("click", () => {
+   messages.replaceChildren(); welcome.hidden = false; firstQuestion = "";
+   const item = document.createElement("button"); item.className = "history-item"; item.textContent = "Percakapan baru";
+   history.replaceChildren(item); prompt.value = ""; prompt.focus(); scrollBottom();
+ });
+})();
+</script>
+</body>
+</html>
