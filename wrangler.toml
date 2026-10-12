@@ -1,3 +1,3 @@
 name = "vtx-claude-ai"
-main = "src/index.js"
-compatibility_date = "2026-10-12"
+main = "index.js"
+compatibility_date = "2026-10-12"-12"
